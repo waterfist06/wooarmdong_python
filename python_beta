@@ -1,0 +1,149 @@
+# 전공 15개
+majors = [
+    "프로그래밍 기초", "자료구조", "웹개발", "컴퓨터구조", "네트워크",
+    "데이터베이스", "수학", "통계", "물리", "전자회로",
+    "기계제도", "디자인 기초", "글쓰기", "심리학", "경영학"
+]
+
+# 성향 6개
+trait_list = [
+    "논리적 사고", "창의적 사고", "메이킹",
+    "대인 커뮤니케이션", "분석적 성향", "글쓰기 성향"
+]
+
+# 직업 리스트 (8개)
+careers = {
+    "소프트웨어 개발자": {
+        "majors": ["프로그래밍 기초", "자료구조", "웹개발", "컴퓨터구조"],
+        "traits": ["논리적 사고", "분석적 성향"],
+        "cert": ["정보처리기사", "SQLD"]
+    },
+    "데이터 분석가": {
+        "majors": ["통계", "데이터베이스", "수학"],
+        "traits": ["분석적 성향", "논리적 사고"],
+        "cert": ["ADsP", "빅데이터분석기사"]
+    },
+    "UX/UI 디자이너": {
+        "majors": ["디자인 기초", "웹개발"],
+        "traits": ["창의적 사고"],
+        "cert": ["GTQ", "UX 자격"]
+    },
+    "기계 엔지니어": {
+        "majors": ["물리", "기계제도"],
+        "traits": ["메이킹", "논리적 사고"],
+        "cert": ["기계정비산업기사"]
+    },
+    "전자/임베디드 엔지니어": {
+        "majors": ["전자회로", "물리", "프로그래밍 기초"],
+        "traits": ["메이킹", "논리적 사고"],
+        "cert": ["전자기사"]
+    },
+    "경영 컨설턴트": {
+        "majors": ["경영학", "수학"],
+        "traits": ["대인 커뮤니케이션", "분석적 성향"],
+        "cert": ["매경TEST", "ADsP"]
+    },
+    "심리 상담가": {
+        "majors": ["심리학"],
+        "traits": ["대인 커뮤니케이션"],
+        "cert": ["상담심리사"]
+    },
+    "작가/시나리오 작가": {
+        "majors": ["글쓰기"],
+        "traits": ["글쓰기 성향", "창의적 사고"],
+        "cert": ["필요 없음"]
+    }
+}
+
+# ------------------------------------------------
+# 가중치 사용자 입력
+# ------------------------------------------------
+print("\n### 가중치 입력 (0~1 사이 값 입력) ###")
+user_major_w = float(input("전공 선호도 가중치: "))
+user_trait_w = float(input("성향 가중치: "))
+user_a_grade_w = float(input("A0 이상 과목 가중치: "))
+
+# 합계를 1로 정규화
+total = user_major_w + user_trait_w + user_a_grade_w
+WEIGHT_MAJOR = user_major_w / total
+WEIGHT_TRAIT = user_trait_w / total
+WEIGHT_A_GRADE = user_a_grade_w / total
+
+print(f"\n→ 정규화된 가중치: 전공 {WEIGHT_MAJOR:.2f}, 성향 {WEIGHT_TRAIT:.2f}, A0 {WEIGHT_A_GRADE:.2f}")
+
+# ------------------------------------------------
+# 사용자 입력
+# ------------------------------------------------
+print("\n### 전공 선호도 입력(1~5점) ###")
+major_scores = {}
+for m in majors:
+    score = int(input(f"{m} 선호도 (1~5): "))
+    major_scores[m] = score
+
+print("\n### 성향 입력 ###")
+print("가능한 성향:", ", ".join(trait_list))
+traits = input("당신의 성향을 쉼표로 입력: ")
+traits = [t.strip() for t in traits.split(",")]
+
+print("\n### A0 이상 받은 과목 입력 ###")
+print("전공 목록:", ", ".join(majors))
+a_grade = input("A0 이상 과목을 쉼표로 입력: ")
+a_grade = [a.strip() for a in a_grade.split(",")]
+
+# ------------------------------------------------
+# 점수 계산 함수
+# ------------------------------------------------
+def calculate_score(career_info):
+    score = 0
+
+    # 1) 전공 선호도 점수
+    related = career_info["majors"]
+    major_score = sum(major_scores[m] for m in related if m in major_scores)
+    major_score /= len(related)
+    score += major_score * WEIGHT_MAJOR
+
+    # 2) 성향 점수
+    trait_match = len(set(traits) & set(career_info["traits"]))
+    trait_score = trait_match / len(career_info["traits"])
+    score += trait_score * WEIGHT_TRAIT
+
+    # 3) A0 이상 과목 점수
+    a_match = len(set(a_grade) & set(related))
+    a_score = a_match / len(related)
+    score += a_score * WEIGHT_A_GRADE
+
+    return score
+
+# ------------------------------------------------
+# 추천 결과 계산
+# ------------------------------------------------
+results = {name: calculate_score(info) for name, info in careers.items()}
+sorted_results = sorted(results.items(), key=lambda x: x[1], reverse=True)
+
+# ------------------------------------------------
+# 출력
+# ------------------------------------------------
+print("\n==========================")
+print("      🎯 추천 결과")
+print("==========================")
+
+best_job = sorted_results[0][0]
+print(f"\n✨ 최종 추천 직업: {best_job}")
+print("관련 전공:", ", ".join(careers[best_job]["majors"]))
+print("필요 성향:", ", ".join(careers[best_job]["traits"]))
+print("추천 자격증:", ", ".join(careers[best_job]["cert"]))
+
+# TOP 3 출력
+print("\n🔥 추천 직업 TOP 3")
+for job, score in sorted_results[:3]:
+    print(f"- {job}: {score:.3f}")
+
+# 비슷한 직업 3개(= 점수 기준 뒤 3개)
+print("\n📌 비슷한 직업 3개")
+for job, score in sorted_results[1:4]:
+    print(f"- {job}: {score:.3f}")
+
+# 전체 점수 출력
+print("\n📊 전체 직업 점수")
+for job, score in sorted_results:
+    print(f"{job}: {score:.3f}")
