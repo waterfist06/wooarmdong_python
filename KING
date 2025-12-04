@@ -1,6 +1,5 @@
-
 # ==============================================================================
-# 🎯 산업경영공학과 직업 추천 시스템 (오류 수정 및 완성 버전)
+# 🎯 산업경영공학과 직업 추천 시스템 (빈칸 무시 기능 제거 버전)
 # ==============================================================================
 
 # ------------------------------------------------
@@ -62,12 +61,10 @@ while True:
 print(f"\n→ 최종 중요도: 전공 {WEIGHT_MAJOR}, 성향 {WEIGHT_TRAIT}, A0 {WEIGHT_A_GRADE}")
 
 
-# (2) 전공 선호도 입력 (생략되었던 부분 채움)
+# (2) 전공 선호도 입력
 print("\n[B] 전공 과목별 선호도를 1~5점(5점이 최고)으로 입력하세요.")
 major_scores = {}
 
-# (테스트를 위해 전체 입력 대신 예시로 값을 자동 할당하거나, 아래 루프를 사용하여 직접 입력받을 수 있습니다. 
-# 여기서는 정상 작동을 위해 사용자가 직접 입력하는 코드로 복원했습니다.)
 for m in all_majors:
     while True:
         try:
@@ -81,7 +78,7 @@ for m in all_majors:
             print("숫자를 입력해야 합니다.")
 
 
-# (3) 성향 입력 (생략되었던 부분 채움)
+# (3) 성향 입력
 traits = []
 print("\n[C] 당신의 성향을 쉼표로 구분하여 입력하세요.")
 print(f"가능한 성향: {', '.join(all_traits)}")
@@ -94,7 +91,7 @@ while True:
     
     for item in input_list:
         item = item.strip()
-        if item == "": continue # 빈칸 무시
+        # [삭제됨] 빈칸 무시 코드 (if item == "": continue) 제거
         
         if item not in all_traits:
             print(f"   ❌ 오류: '{item}'은 목록에 없는 성향이거나 오타입니다.")
@@ -113,14 +110,14 @@ while True:
         print("   ❌ 오류: 성향을 하나 이상 입력해야 합니다.\n")
 
 
-# (4) A0 이상 과목 입력 (생략되었던 부분 채움)
+# (4) A0 이상 과목 입력
 a_grade = []
 print("\n[D] A0 이상 받은 전공 과목을 쉼표로 구분하여 입력하세요.")
 
 while True:
     input_text = input("입력 (없으면 엔터): ")
     if input_text.strip() == "":
-        break # 없으면 그냥 통과
+        break 
 
     input_list = input_text.split(",")
     invalid_found = False
@@ -128,7 +125,7 @@ while True:
     
     for item in input_list:
         item = item.strip()
-        if item == "": continue
+        # [삭제됨] 빈칸 무시 코드 (if item == "": continue) 제거
 
         if item not in all_majors:
             print(f"   ❌ 오류: '{item}'은 전공 목록에 없는 과목이거나 오타입니다.")
