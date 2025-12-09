@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 브라우저 탭에 표시될 제목 -->
+    <title>직업 소개 | wooarmdong_python</title>
+
+    <!-- 사이트 폼 스타일 불러오기 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- 상단 네비게이션(헤더) -->
+
+<header class="header">
+
+    <!-- 로고 클릭하면 홈('/')으로 이동 -->
+    <a href="/" class="logo">wooarmdong_python</a>
+
+    <!-- 메뉴 -->
+    <nav>
+        <a href="/careers">직업 소개</a>
+        <a href="/details">상세 결과</a>
+    </nav>
+
+</header>
+
+<!-- 메인 콘텐츠 영역 -->
+
+<main class="main-container narrow"> <!-- 핵심 본문 영역, 900px 너비로 -->
+    
+    <!-- 직업 수 표시 -->
+    <!-- careers|length = 직업 딕셔너리 길이 (14개) -->
+    <h1 class="page-title">직업 소개 (총 {{ careers|length }}개)</h1>
+
+    <div class="card-list">
+
+        <!-- 
+            careers는 app.py에서 보내준 딕셔너리:
+
+            {
+                "경영 컨설턴트": {
+                    "m": [...],
+                    "t": [...],
+                    "c": [...],
+                    "r": "...",
+                },
+                ...
+            }
+
+            job = 직업 이름 (key)
+            info = 전공/성향/자격증/설명 (value)
+        -->
+        {% for job, info in careers.items() %}
+
+        <!-- 하나의 직업 카드를 나타내는 박스 -->
+        <div class="info-card">
+
+            <!-- 직업명 표시 -->
+            <h2>{{ job }}</h2>
+
+            <!-- 추천 이유 텍스트 -->
+            <p class="info-desc">{{ info.r }}</p>
+
+            <!-- 관련 전공 목록 표시 -->
+            <!-- info.m = ["경영과학응용", "의사결정론", ...] -->
+            <!-- join(', ') => "경영과학응용, 의사결정론, ..." -->
+            <p><strong>관련 전공:</strong> {{ info.m | join(', ') }}</p>
+
+            <!-- 필요 성향 리스트 표시 -->
+            <p><strong>필요 성향:</strong> {{ info.t | join(', ') }}</p>
+
+            <!-- 추천 자격증 리스트 표시 -->
+            <p><strong>추천 자격증:</strong> {{ info.c | join(', ') }}</p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</main>
+
+</body>
+</html>
