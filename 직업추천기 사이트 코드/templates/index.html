@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head> <!-- 본문 -->
+    <meta charset="UTF-8"> <!-- 텍스트 형식 말하는거 "UTF-8" -->
+    <title>wooarmdong_python | 직업 추천</title>
+
+    <!-- static/style.css(css가 페이지 꾸며주는 코드임) 불러오기 -->
+    <!-- Flask에서는 url_for('static', filename='...') 로 파일을 로드함 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- 상단 헤더 영역: 로고 + 메뉴(스크롤을 해도 로고,메뉴는 상단에 유지시켜주는거)-->
+
+<header class="header">
+    <!-- 메인 페이지로 이동하는 로고 -->
+    <a href="/" class="logo">wooarmdong_python</a>
+
+    <!-- 상단 내비게이션 메뉴(클릭하면 거기로 이동)-->
+    <nav>
+        <a href="/careers">직업 소개</a>   <!-- careers 페이지 -->
+        <a href="/details">상세 결과</a>   <!-- 상세 분석 페이지 -->
+    </nav>
+</header>
+
+
+<!-- 전체 페이지 내용 컨테이너 -->
+<main class="main-container">
+
+    <!-- 페이지 제목 부분 -->
+    <section class="hero">
+        <h1 class="hero-title">산업경영공학과를 위한 직업 추천</h1> <!-- 기본문법: 페이지 제목,주제 이런거 다 쓰고 /h1,2,3 이런거 써서 시작,끝 알리기 -->
+    </section>
+
+    <!-- 3단계 절차 소개 칸들 -->
+    <section class="steps">
+
+        <!-- 첫번째 칸 -->
+        <div class="step-card red">
+            <div class="step-title">1단계</div> <!-- 기본문법: card(칸) 하나로 묶을려고 쓰는거  -->
+            <h3>가중치 부여</h3>
+            <p>여러분의 우선순위를 정해주세요!</p>
+        </div>
+
+        <!-- 두번쨰 칸 -->
+        <div class="step-card teal">
+            <div class="step-title">2단계</div>
+            <h3>전공과 성향 선택</h3>
+            <p>전공과목과 성향을 선택해주세요.</p>
+        </div>
+
+        <!-- 3번째 칸 -->
+        <div class="step-card blue">
+            <div class="step-title">3단계</div>
+            <h3>결과 분석</h3>
+            <p>추천되는 직업을 확인해보세요!</p>
+        </div>
+
+    </section>
+
+    <!-- 사용자가 실제로 입력하는 폼 영역 -->
+
+    <section class="form-section">
+        <h2>테스트 시작하기</h2>
+
+        <!-- method="POST" → app.py의 index()에서 POST로 받음 -->
+        <form method="POST" class="test-form">
+
+            <!-- 1. 전공/성향/A0 가중치 입력 -->
+ 
+            <h3>1. 가중치를 1~5점 부여해주세요.</h3>
+
+            <!-- 전공 가중치 -->
+            <label>
+                전공 중요도
+                <input type="number" name="weight_major" min="1" max="5" class="input-box" required>
+            </label>
+
+            <!-- 성향 가중치 -->
+            <label>
+                성향 중요도
+                <input type="number" name="weight_trait" min="1" max="5" class="input-box" required>
+            </label>
+
+            <!-- A0 가중치 -->
+            <label>
+                A0 중요도
+                <input type="number" name="weight_a_grade" min="1" max="5" class="input-box" required>
+            </label>
+
+            <!-- 2. 전공 점수를 1~5로 입력 -->
+
+            <h3>2. 전공과목을 어느정도 선호하시나요?</h3>
+
+            <!-- 세로 스크롤박스: 17개 전공이 반복됨 -->
+            <div class="scroll-box">
+
+                <!-- Flask의 Jinja2 반복문(파이썬의 for반복문 html버전) -->
+                {% for m in all_majors %}
+                <label>
+                    {{ m }} <!-- 전공 이름 출력(전공 과목17개 입력칸으로 작성) -->
+
+                    <!-- 전공 점수 입력 (1~5) -->
+                    <!-- name="major_전공명" 형태로 app.py에서 읽음 -->
+                    <input type="number" name="major_{{m}}" min="1" max="5" class="input-box" required>
+                </label>
+                {% endfor %} <!-- for이랑 같이 쓰인건데 전공 리스트 추가하면 알아서 반영해주는 자동코드임-->
+
+            </div>
+
+            <!-- 3. 성향 선택 (체크박스) -->
+
+            <h3>3. 당신은 어떤 분이신가요?(중복 선택 가능)</h3>
+
+            <div class="scroll-box small">
+                {% for t in all_traits %}
+                <label class="checkbox-label">
+                    <!-- name="traits": 리스트로 전달됨, value="{{t}}": 입력하면 그 값이 서버로 넘어옴 -->
+                    <input type="checkbox" name="traits" value="{{t}}">
+                    <span>{{ t }}</span> <!-- 너가 선택한 항목이 화면에 보이게해줌 -->
+                </label>
+                {% endfor %}
+            </div>
+
+            <!-- 4. A0 받은 전공 선택 (체크박스) -->
+    
+            <h3>4. A0 이상 받은 전공은 무엇인가요?(중복 선택 가능)</h3>
+
+            <div class="scroll-box small">
+                {% for m in all_majors %}
+                <label class="checkbox-label">
+                     <!-- name="traits": 리스트로 전달됨, value="{{t}}": 입력하면 그 값이 서버로 넘어옴 -->
+                    <input type="checkbox" name="a_grade" value="{{m}}">
+                    <span>{{ m }}</span> <!-- 너가 선택한 항목이 화면에 보이게해줌 -->
+                </label>
+                {% endfor %}
+            </div>
+
+            <!-- 제출 버튼 -->
+
+            <button type="submit" class="start-btn">결과 보기</button>
+
+        </form>
+    </section>
+
+    <!-- 결과가 있는 경우에만 아래를 렌더링 -->
+    <!-- app.py에서 results != None 일 때 -->
+
+    {% if results %} <!-- 결과값이 존재하면 아래 코드를 실행함 -->
+    <section class="result-section"> <!-- 결과 값 영역 -->
+
+        <h2>최종 추천 직업</h2>
+
+        <!-- 1등 직업 칸 -->
+        <div class="result-main-card">
+            <h3>{{ best_job }}</h3>           <!-- 1위 직업 이름 -->
+            <p class="result-desc">{{ best_info.r }}</p> <!-- 직업 설명 -->
+        </div>
+
+        <!-- 직업별 점수 순위 리스트 -->
+        <h3 class="result-subtitle">직업별 점수 순위</h3>
+
+        <div class="result-list">
+            {% for job, score in results %}
+            <div class="result-item">
+                <div class="result-job">{{ job }}</div>         <!-- 직업명 -->
+                <div class="result-score">{{ score }}점</div>   <!-- 해당 직업 점수 -->
+            </div>
+            {% endfor %}
+        </div>
+
+    </section>
+    {% endif %}
+
+</main>
+
+</body>
+</html>
