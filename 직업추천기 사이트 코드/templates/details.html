@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <!-- 브라우저 탭에 표시되는 제목 -->
+    <title>상세 결과 | wooarmdong_python</title>
+
+    <!-- CSS파일 불러오기 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- 상단 헤더 (메뉴 + 로고) -->
+
+<header class="header">
+
+    <!-- 클릭하면 홈('/')으로 이동 -->
+    <a href="/" class="logo">wooarmdong_python</a>
+
+    <!-- 상세 페이지, 직업 소개 페이지 이동 메뉴 -->
+    <nav>
+        <a href="/careers">직업 소개</a>
+        <a href="/details">상세 결과</a>
+    </nav>
+
+</header>
+
+<!-- 메인 내용 영역 -->
+
+<main class="main-container narrow">
+
+    <!-- 페이지 제목 -->
+    <h1 class="page-title">상세 결과 분석</h1>
+
+
+    <!-- 전공 선호도 레이더 차트 -->
+    <h2>전공 선호도 분석</h2>
+    <p>당신의 전공 선호도 점수를 시각화한 것입니다.</p>
+
+    <!-- 차트를 감싸는 칸 -->
+    <div class="info-card" style="text-align:center;">
+        <!-- app.py에서 저장한 radar chart 이미지 출력하기 -->
+        <!-- /static/major_chart.png 형태로 표시하라고(사진으로 보여주는거)-->
+        <img src="/static/{{ chart }}" class="chart-img" style="max-width:420px;">
+    </div>
+
+
+    <!-- 전공 점수 요약 -->
+    <section class="info-card" style="margin-top:20px;">
+
+        <h3>전공 점수 요약</h3>
+
+        <ul class="score-list"> <!-- 전에 각 전공 계산한 전공 점수를 리스트로 정리함  -->
+            <!-- scores = {전공명: 점수} -->
+            {% for major, score in scores.items() %} <!-- 세션에서 가져온 데이터 반복 출력 -->
+                <li>
+                    <span>{{ major }}</span>   <!-- 전공명 -->
+                    <span>{{ score }}점</span>  <!-- 해당 전공 점수 -->
+                </li>
+            {% endfor %}
+        </ul>
+
+    </section>
+
+
+    <!-- 적합도 분석 -->
+    <section class="info-card" style="margin-top:20px;"> <!-- 이런건 칸 사이즈 설정한거야 -->
+
+        <h3>왜 이 직업이 왜 당신한테 적합한가?</h3>
+
+        <!-- 추천된 직업명 출력 -->
+        <p>
+            <strong>{{ best_job }}</strong> 직업은 아래 세 가지 요소에서 높은 점수를 받았습니다.
+        </p>
+
+        <!-- app.py에서 계산된 기여도 보여주는 부분 -->
+        <ul class="score-list">
+            <li>전공 적합도 기여 점수: <strong>{{ summary.major }}점</strong></li>
+            <li>성향 일치 기여 점수: <strong>{{ summary.trait }}점</strong></li>
+            <li>A0 기여 점수:        <strong>{{ summary.a_grade }}점</strong></li>
+        </ul>
+
+        <!-- 총합 점수 -->
+        <p style="font-size:16px; margin-top:10px;">
+             <strong>최종 적합도 점수: {{ summary.total }}점</strong>
+        </p>
+
+        <!-- best_info.r = 해당 직업의 추천 이유 텍스트 -->
+        <p class="info-desc" style="margin-top:10px;">
+            {{ best_info.r }}
+        </p>
+
+    </section>
+
+</main>
+
+</body>
+</html>
