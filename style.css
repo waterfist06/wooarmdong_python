@@ -1,0 +1,306 @@
+/* 전체 레이아웃 – 다크 테마 기본 설정 */
+body {
+    font-family: 'Pretendard', system-ui, -apple-system, BlinkMacSystemFont, sans-serif; /* 폰트 우선순위 설정 */
+    margin: 0;                  /* 기본 여백 제거 */
+    padding: 0;                 /* 기본 패딩 제거 padding: 박스(칸)과 글자간의 너비*/
+    background: #050814;        /* 사이트 전체 배경색 */
+    color: #f5f7ff;             /* 기본 글자색 */
+}
+
+/* 페이지 메인 컨테이너 (가운데 정렬) */
+.main-container {
+    max-width: 1100px;          /* 내용 최대 너비 */
+    margin: 0 auto 60px auto;   /* 자동 가운데 정렬 + 아래 여백 */
+    padding: 20px;              /* 내부 여백 */
+}
+
+/* 상세 페이지처럼 좁은 레이아웃이 필요한 경우 */
+.main-container.narrow {
+    max-width: 900px;
+}
+
+/* 상단 헤더(네비게이션 바) */
+.header {
+    display: flex;                              /* 가로 정렬 */
+    justify-content: space-between;             /* 좌/우 분배 */
+    align-items: center;                        /* 세로 중앙 정렬 */
+    padding: 14px 40px;                         /* 내부 여백 */
+    background: rgba(5, 9, 24, 0.95);           /* 반투명 다크 배경 */
+    border-bottom: 1px solid rgba(255,255,255,0.08); /* 연한 구분선 */
+    position: sticky;                           /* 스크롤해도 상단 고정 */
+    top: 0;
+    z-index: 20;                                /* 다른 요소 위에 표시 */
+    backdrop-filter: blur(14px);                /* 배경 흐림 효과 */
+}
+
+.logo {
+    font-size: 20px;            /* 로고 크기 */
+    font-weight: 800;           /* 두께 */
+    color: #ffffff;
+    text-decoration: none;      /* 밑줄 제거 */
+}
+
+nav a {
+    margin-left: 22px;
+    font-size: 15px;
+    color: #d0d4ff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #7cd3ff;             /* 마우스 올리면 파란색 */
+}
+
+/* 히어로 영역 (메인 타이틀 영역) */
+.hero {
+    text-align: center;
+    padding: 40px 10px 10px;
+}
+
+.hero-title {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 1px;        /* 글자 사이 간격 */
+}
+
+.hero-subtitle {
+    font-size: 16px;
+    color: #c3c7f7;
+    margin-top: 8px;
+}
+
+/* 단계(step) 카드 */
+.steps {
+    display: flex;
+    justify-content: center;
+    gap: 18px;                  /* 카드 사이 간격 */
+    margin: 24px 0 32px;
+    flex-wrap: wrap;            /* 창이 좁으면 줄바꿈 */
+}
+
+.step-card {
+    width: 260px;
+    padding: 18px 20px;
+    border-radius: 14px;
+    color: #fff;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.55);  /* 입체감 */
+}
+
+.step-title {
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.step-card h3 { margin: 4px 0; }
+.step-card p { font-size: 14px; opacity: 0.9; }
+
+/* 각 단계의 카드 색상 */
+.red  { background: linear-gradient(135deg, #ff5f6d, #d94a4a); }
+.teal { background: linear-gradient(135deg, #27c2a0, #138f7b); }
+.blue { background: linear-gradient(135deg, #4e6bff, #3246c8); }
+
+/* 테스트 입력 폼 섹션 */
+.form-section {
+    margin-top: 10px;
+    padding: 28px 26px 32px;
+    border-radius: 18px;
+    background: #111627;         /* 어두운 카드 */
+    box-shadow: 0 18px 55px rgba(0,0,0,0.7);
+}
+
+.form-section h2 {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.test-form { margin-top: 10px; }
+
+.test-form h3 {
+    margin: 20px 0 10px;
+    text-align: center;
+}
+
+/* 폼 라벨 + 인풋 정렬 */
+.test-form label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+/* 숫자 입력 칸 스타일 */
+.input-box {
+    margin-left: 8px;
+    padding: 6px 8px;
+    width: 70px;
+    border-radius: 8px;
+    border: 1px solid #3a4270;
+    background: #050814;
+    color: #f5f7ff;
+}
+
+/* 스크롤 가능한 목록 박스 */
+.scroll-box {
+    max-height: 230px;
+    overflow-y: auto;           /* 스크롤 생성 */
+    padding: 10px 14px;
+    margin-top: 8px;
+    border-radius: 10px;
+    background: #0a1020;
+    border: 1px solid #272f4b;
+}
+
+/* 더 작은 버전 */
+.scroll-box.small {
+    max-height: 180px;
+}
+
+/* 체크박스 + 텍스트 */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.checkbox-label input {
+    margin-right: 8px;          /* 체크박스와 텍스트 사이 간격 */
+}
+
+/* 제출 버튼 */
+.start-btn {
+    margin: 18px auto 0 auto;   /* 가운데 정렬 */
+    padding: 10px 26px;
+    border-radius: 999px;       /* 둥근 버튼 */
+    border: none;
+    background: linear-gradient(135deg, #4e6bff, #7cd3ff);
+    color: #050814;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.start-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* ================================
+   📊 결과 섹션
+================================ */
+.result-section {
+    margin-top: 32px;
+    padding: 24px 26px 30px;
+    border-radius: 18px;
+    background: #0b1020;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+}
+
+.result-main-card {
+    background: linear-gradient(135deg, #4e6bff, #9b7bff);
+    padding: 18px 20px;
+    border-radius: 14px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between; /* 직업명 / 점수 좌우 배치 */
+    padding: 8px 10px;
+    background: #080c18;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.result-job { color: #e0e2ff; }
+.result-score { color: #7cd3ff; }
+
+/* 직업 소개 / 상세 분석 공용 카드 */
+.page-title {
+    margin: 30px 0 16px;
+    font-size: 24px;
+}
+
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.info-card {
+    background: #101526;
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.65);
+}
+
+.info-desc {
+    font-size: 14px;
+    color: #c5c8f0;
+}
+
+/* 반응형 (태블릿 이하) */
+@media (max-width: 768px) {
+    .header { padding: 10px 18px; }
+    .steps { flex-direction: column; }
+    .form-section, .result-section {
+        padding: 20px 18px 24px;
+    }
+}
+
+/*  상세 페이지 추가 요소 */
+.detail-title {
+    font-size: 22px;
+    margin: 30px 0 12px;
+    color: #9db8ff;
+    font-weight: 700;
+}
+
+/* 차트 박스 */
+.chart-box {
+    margin: 20px auto;
+    padding: 16px;
+    background: #0c1122;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    text-align: center;
+}
+
+.chart-img {
+    max-width: 96%;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+/* 점수 요약 리스트 */
+.score-section {
+    margin-top: 30px;
+    background: #101526;
+    padding: 18px 20px;
+    border-radius: 14px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.65);
+}
+
+.score-list {
+    list-style: none;
+    padding: 0;
+}
+
+.score-list li {
+    display: flex;
+    justify-content: space-between;
+    background: #0b1020;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #1d2540;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #dbe2ff;
+}
+
+.score-list li:hover {
+    background: #111a33;
+    border-color: #3c4c7b;
+}
